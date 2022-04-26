@@ -7,6 +7,7 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import axios from 'axios'
 
 export default {
   name: 'App',
@@ -17,6 +18,12 @@ export default {
     return {
       age: 30
     }
+  },
+  mounted () {
+    let url = "https://www.baidu.com/"
+    axios.get(url).then(() => {
+
+    })
   }
 }
 </script>
