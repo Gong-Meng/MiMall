@@ -19,7 +19,7 @@ export default {
     // storage.setItem('user', {a: 1})
     // storage.setItem('abc', {a: 1}, 'user')
     // storage.clear('a')
-    storage.clear('a', 'user')
+    // storage.clear('a', 'b')
   }
 }
 </script>

@@ -1,11 +1,15 @@
 import Vue from 'vue'
-import App from './App.vue'
 import axios from 'axios'
 import router from './router'
+import env from './env'
+import App from './App.vue'
 
 // 根据前端的跨域方式做调整
 axios.defaults.baseURL = '/api' // 此处采用接口代理
 axios.defaults.timeout = 8000
+
+// 根据环境变量获取不同的请求地址
+axios.defaults.baseURL = env.baseURL
 /**
  * 接口错误拦截
  */
