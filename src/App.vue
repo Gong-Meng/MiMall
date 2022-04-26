@@ -7,7 +7,7 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-import axios from 'axios'
+import jsonp from 'jsonp'
 
 export default {
   name: 'App',
@@ -16,13 +16,15 @@ export default {
   },
   data () {
     return {
-      age: 30
+      age: 30,
+      data: ''
     }
   },
   mounted () {
-    let url = "https://www.baidu.com/"
-    axios.get(url).then(() => {
-
+    let url = "/api/common/adver-getadver"
+    jsonp(url, (err, res) => {
+      let result = res
+      this.data = result
     })
   }
 }
