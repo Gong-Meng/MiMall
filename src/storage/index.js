@@ -1,1 +1,40 @@
-// 信息存储
+// Storge封装
+const STORAGE_KEY = 'mall'
+
+export default {
+    // 存储值
+    setItem (key, value, module_name) {
+        if (module_name) {
+            let val = this.getItem(module_name)
+            val[key] = value
+            this.setItem(module_name, val)
+        } else {
+            let val = this.getStorge()
+            val[key] = value
+            window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(val))
+        }
+    },
+    //获取某一个模块下面的属性user下面的userName
+    getItem (key, module_name) {
+        if (module_name) {
+            let val = this.getItem(module_name)
+            if (val) {
+                return val[key]
+            }
+        }
+        return this.getStorge()[key]
+    },
+    getStorge() {
+        //获取整个Storge
+        return JSON.parse(window.sessionStorage.getItem(STORAGE_KEY) || '{}')
+    },
+    clear (key, module_name) {
+        let val = this.getStorge()
+        if ( module_name ) {
+            delete val[module_name][key]
+        } else {
+            delete val[key]
+        }
+        window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(val))
+    }
+}
