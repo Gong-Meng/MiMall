@@ -5,13 +5,13 @@
 </template>
 
 <script>
-import storage from './storage'
+// import storage from './storage'
 export default {
   name: 'App',
   components: {},
   data () {
     return {
-      
+        res: {}
     }
   },
   mounted () {
@@ -20,6 +20,11 @@ export default {
     // storage.setItem('abc', {a: 1}, 'user')
     // storage.clear('a')
     // storage.clear('a', 'b')
+    // 本地加载请求静态json文件的形式
+    // this.$axios.get('/mock/user/login.json').then((res) => {
+    //   this.res = res
+    // })
+    // 通过easy-mock平台数据实现mock
   }
 }
 </script>
