@@ -4,8 +4,14 @@ import router from './router'
 // import env from './env'
 import App from './App.vue'
 
+// mock 开关
+const mock = true
+if (mock) {
+  require('./mock/api')
+}
+
 // 根据前端的跨域方式做调整
-// axios.defaults.baseURL = '/api' // 此处采用接口代理
+axios.defaults.baseURL = '/api' // 此处采用接口代理
 axios.defaults.timeout = 8000
 
 // 根据环境变量获取不同的请求地址

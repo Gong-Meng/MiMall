@@ -25,6 +25,12 @@ export default {
     //   this.res = res
     // })
     // 通过easy-mock平台数据实现mock
+    // 这种方式直接跳过
+
+    // 本地继承mockjs实现数据mock
+    this.$axios.get('/user/login').then((res) => {
+      this.res = res
+    })
   }
 }
 </script>
