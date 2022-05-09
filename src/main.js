@@ -5,7 +5,7 @@ import router from './router'
 import App from './App.vue'
 
 // mock 开关
-const mock = true
+const mock = false
 if (mock) {
   require('./mock/api')
 }

@@ -9,9 +9,10 @@
                     <a href="javascript:;">协议规则</a>              
                 </div>
                 <div class="tobar-user">
-                    <a href="javascript:;">登录</a>   
-                    <a href="javascript:;">注册</a>   
-                    <a href="javascript:;" class="my-cart"><span class="icon-cart"></span>购物车</a>     
+                    <a href="javascript:;" v-if="username">{{username}}</a>
+                    <a href="javascript:;" v-if="!username" @click="login">登录</a>
+                    <a href="javascript:;">我的订单</a>   
+                    <a href="javascript:;" class="my-cart" @click="goToCart"><span class="icon-cart"></span>购物车</a>     
                 </div>
             </div>
         </div>
@@ -25,29 +26,16 @@
                         <span>小米手机</span>
                         <div class="children">
                             <ul>
-                                <li class="product">
-                                    <a href="" target="_blank">
+                                <li class="product" v-for="(item, index) in phoneList" :key="index">
+                                    <a :href="'/#/product/'+item.id" target="_blank">
                                         <div class="pro-img">
-                                            <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/88ae9b85c5f8fbdae2ea98d58a045e1e.png?thumb=1&w=160&h=110&f=webp&q=90" alt="">            
+                                            <img :src="item.mainImage" :alt="item.subtitle">            
                                         </div>
                                         <div class="pro-name">
-                                            小米CC9
+                                            {{item.name}}
                                         </div>
                                         <div class="pro-price">
-                                            1799元
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="product">
-                                    <a href="" target="_blank">
-                                        <div class="pro-img">
-                                            <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/88ae9b85c5f8fbdae2ea98d58a045e1e.png?thumb=1&w=160&h=110&f=webp&q=90" alt="">            
-                                        </div>
-                                        <div class="pro-name">
-                                            小米CC9
-                                        </div>
-                                        <div class="pro-price">
-                                            1799元
+                                            {{item.price | currency}}
                                         </div>
                                     </a>
                                 </li>
@@ -56,11 +44,92 @@
                     </div>
                     <div class="item-menu">
                         <span>RedMi手机</span>
-                        <div class="children"></div>
+                        <!-- <div class="children"></div> -->
                     </div>
                     <div class="item-menu">
                         <span>电视</span>
-                        <div class="children"></div>
+                        <div class="children">
+                            <ul>
+                                <li class="product">
+                                    <a href="" target="_blank">
+                                        <div class="pro-img">
+                                            <img src="/imgs/nav-img/nav-3-1.jpg" alt="">            
+                                        </div>
+                                        <div class="pro-name">
+                                            小米壁画电视 65英寸
+                                        </div>
+                                        <div class="pro-price">
+                                            6999元
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="product">
+                                    <a href="" target="_blank">
+                                        <div class="pro-img">
+                                            <img src="/imgs/nav-img/nav-3-2.jpg" alt="">      
+                                        </div>
+                                        <div class="pro-name">
+                                            小米壁画电视 65英寸
+                                        </div>
+                                        <div class="pro-price">
+                                            6999元
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="product">
+                                    <a href="" target="_blank">
+                                        <div class="pro-img">
+                                            <img src="/imgs/nav-img/nav-3-3.png" alt="">      
+                                        </div>
+                                        <div class="pro-name">
+                                            小米壁画电视 65英寸
+                                        </div>
+                                        <div class="pro-price">
+                                           6999元
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="product">
+                                    <a href="" target="_blank">
+                                        <div class="pro-img">
+                                            <img src="/imgs/nav-img/nav-3-4.jpg" alt="">      
+                                        </div>
+                                        <div class="pro-name">
+                                            小米壁画电视 65英寸
+                                        </div>
+                                        <div class="pro-price">
+                                            6999元
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="product">
+                                    <a href="" target="_blank">
+                                        <div class="pro-img">
+                                            <img src="/imgs/nav-img/nav-3-5.jpg" alt="">      
+                                        </div>
+                                        <div class="pro-name">
+                                            小米壁画电视 65英寸
+                                        </div>
+                                        <div class="pro-price">
+                                            6999元
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="product">
+                                    <a href="" target="_blank">
+                                        <div class="pro-img">
+                                            <img src="/imgs/nav-img/nav-3-6.png" alt="">      
+                                        </div>
+                                        <div class="pro-name">
+                                            小米壁画电视 65英寸
+                                        </div>
+                                        <div class="pro-price">
+                                            6999元
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="header-search">
@@ -77,7 +146,46 @@
 
 <script>
 export default {
-    name: 'nav-header'
+    name: 'nav-header',
+    data () {
+        return {
+            username: 'jack',
+            phoneList: []
+        }
+    },
+    filters: {
+        currency (val) {
+            if (!val) {
+                return '0.00'
+            }
+            return '￥' + val.toFixed(2) + '元'
+        }
+    },
+    mounted () {
+        this.getProductList()
+    },
+    methods: {
+        login () {
+            this.$router.push('/login')
+        },
+        getProductList () {
+            this.$axios.get('/products', {
+                params: {
+                    categoryId: '100012',
+                    // pageSize: 6
+                }
+            }).then((res) => {
+                if (res.list.length > 6) {
+                    this.phoneList = res.list.slice(0,6)
+                } else {
+                    this.phoneList = res.list
+                }
+            })
+        },
+        goToCart () {
+            this.$router.push('/cart')
+        }
+    }
 }
 </script>
 <style lang="scss">
@@ -156,6 +264,7 @@ export default {
                             color: $colorA;
                             .children{
                                 height: 220px;
+                                opacity: 1;
                             }
                         }
                         .children{
@@ -163,10 +272,13 @@ export default {
                             top: 112px;
                             left: 0;
                             width: 1226px;
-                            height: 220px;
+                            height: 0;
+                            opacity: 0;
+                            overflow: hidden;
                             border-top: 1px solid #e5e5e5;
                             box-shadow: 0px 7px 6px 0px rgba(0,0,0,0.11);
                             z-index: 10;
+                            transition: height .5s;
                            .product{
                                 position: relative;
                                 float: left;
