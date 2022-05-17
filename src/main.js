@@ -2,6 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import router from './router'
 // import env from './env'
+import VueLazyload from 'vue-lazyload'
 import App from './App.vue'
 
 // mock 开关
@@ -30,6 +31,9 @@ axios.interceptors.response.use((response) => {
   }
 })
 
+Vue.use(VueLazyload, {
+  loading: '/imgs/loading-svg/loading-bars.svg'
+})
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 

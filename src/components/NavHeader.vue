@@ -29,7 +29,7 @@
                                 <li class="product" v-for="(item, index) in phoneList" :key="index">
                                     <a :href="'/#/product/'+item.id" target="_blank">
                                         <div class="pro-img">
-                                            <img :src="item.mainImage" :alt="item.subtitle">            
+                                            <img v-lazy="item.mainImage" :alt="item.subtitle">            
                                         </div>
                                         <div class="pro-name">
                                             {{item.name}}
@@ -53,7 +53,7 @@
                                 <li class="product">
                                     <a href="" target="_blank">
                                         <div class="pro-img">
-                                            <img src="/imgs/nav-img/nav-3-1.jpg" alt="">            
+                                            <img v-lazy="'/imgs/nav-img/nav-3-1.jpg'" alt="">            
                                         </div>
                                         <div class="pro-name">
                                             小米壁画电视 65英寸
@@ -66,7 +66,7 @@
                                 <li class="product">
                                     <a href="" target="_blank">
                                         <div class="pro-img">
-                                            <img src="/imgs/nav-img/nav-3-2.jpg" alt="">      
+                                            <img v-lazy="'/imgs/nav-img/nav-3-2.jpg'" alt="">      
                                         </div>
                                         <div class="pro-name">
                                             小米壁画电视 65英寸
@@ -79,7 +79,7 @@
                                 <li class="product">
                                     <a href="" target="_blank">
                                         <div class="pro-img">
-                                            <img src="/imgs/nav-img/nav-3-3.png" alt="">      
+                                            <img v-lazy="'/imgs/nav-img/nav-3-3.png'" alt="">      
                                         </div>
                                         <div class="pro-name">
                                             小米壁画电视 65英寸
@@ -92,7 +92,7 @@
                                 <li class="product">
                                     <a href="" target="_blank">
                                         <div class="pro-img">
-                                            <img src="/imgs/nav-img/nav-3-4.jpg" alt="">      
+                                            <img v-lazy="'/imgs/nav-img/nav-3-4.jpg'" alt="">      
                                         </div>
                                         <div class="pro-name">
                                             小米壁画电视 65英寸
@@ -105,7 +105,7 @@
                                 <li class="product">
                                     <a href="" target="_blank">
                                         <div class="pro-img">
-                                            <img src="/imgs/nav-img/nav-3-5.jpg" alt="">      
+                                            <img v-lazy="'/imgs/nav-img/nav-3-5.jpg'" alt="">      
                                         </div>
                                         <div class="pro-name">
                                             小米壁画电视 65英寸
@@ -118,7 +118,7 @@
                                 <li class="product">
                                     <a href="" target="_blank">
                                         <div class="pro-img">
-                                            <img src="/imgs/nav-img/nav-3-6.png" alt="">      
+                                            <img v-lazy="'/imgs/nav-img/nav-3-6.png'" alt="">      
                                         </div>
                                         <div class="pro-name">
                                             小米壁画电视 65英寸
