@@ -3,6 +3,7 @@ import axios from 'axios'
 import router from './router'
 // import env from './env'
 import VueLazyload from 'vue-lazyload'
+import VueCookie from 'vue-cookie'
 import App from './App.vue'
 
 // mock 开关
@@ -28,9 +29,11 @@ axios.interceptors.response.use((response) => {
     window.location.href = '/#/login'
   } else {
     alert(res.msg)
+    return Promise.reject(res)
   }
 })
 
+Vue.use(VueCookie)
 Vue.use(VueLazyload, {
   loading: '/imgs/loading-svg/loading-bars.svg'
 })
