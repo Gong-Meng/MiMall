@@ -23,10 +23,13 @@ axios.defaults.timeout = 8000
  */
 axios.interceptors.response.use((response) => {
   let res = response.data
+  let path = location.hash
   if (res.status == 0) {
     return res.data
   } else if (res.status == 10) {
-    window.location.href = '/#/login'
+    if (path != '#/index') {
+      window.location.href = '/#/login'
+    }
   } else {
     alert(res.msg)
     return Promise.reject(res)
