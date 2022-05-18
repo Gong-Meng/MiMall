@@ -4,6 +4,7 @@ import router from './router'
 // import env from './env'
 import VueLazyload from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
+import store from './store'
 import App from './App.vue'
 
 // mock 开关
@@ -44,6 +45,7 @@ Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
 new Vue({
+  store,
   router,
   render: h => h(App),
 }).$mount('#app')
