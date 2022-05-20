@@ -47,6 +47,7 @@ Vue.use(VueLazyload, {
   loading: '/imgs/loading-svg/loading-bars.svg'
 })
 Vue.prototype.$axios = axios
+Vue.prototype.$message = Message
 Vue.config.productionTip = false
 
 new Vue({
