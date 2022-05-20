@@ -4,6 +4,8 @@ import router from './router'
 // import env from './env'
 import VueLazyload from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
+import { Message } from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 import store from './store'
 import App from './App.vue'
 
@@ -19,6 +21,7 @@ axios.defaults.timeout = 8000
 
 // 根据环境变量获取不同的请求地址
 // axios.defaults.baseURL = env.baseURL
+
 /**
  * 接口错误拦截
  */
@@ -33,7 +36,8 @@ axios.interceptors.response.use((response) => {
     }
     return Promise.reject(res)
   } else {
-    alert(res.msg)
+    // alert(res.msg)
+    Message.warning(res.msg)
     return Promise.reject(res)
   }
 })
