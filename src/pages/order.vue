@@ -1,6 +1,6 @@
 <template>
     <div>
-        <order-header></order-header>
+        <order-header title="确认订单"></order-header>
         <router-view></router-view>
         <nav-footer></nav-footer>
     </div>
