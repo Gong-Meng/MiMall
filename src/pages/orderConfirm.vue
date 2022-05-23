@@ -25,7 +25,7 @@
           <div class="item-address">
             <h2 class="addr-title">收货地址</h2>
             <div class="addr-list clearfix">
-              <div class="addr-info" v-for="(item, index) in list" :key="index">
+              <div class="addr-info" :class="{'checked': index == checkIndex}" @click="checkIndex=index" v-for="(item, index) in list" :key="index">
                 <h2>{{item.receiverName}}</h2>
                 <div class="phone">{{item.receiverMobile}}</div>
                 <div class="street">{{item.receiverProvince + ' ' + item.receiverCity + ' ' + item.receiverDistrict + ' ' + item.receiverAddress}}<br>东大街地铁</div>
@@ -35,7 +35,7 @@
                       <use xlink:href="#icon-del"></use>
                     </svg>
                   </a>
-                  <a href="javascript:;" class="fr">
+                  <a href="javascript:;" class="fr" @click="editAddressModal(item)">
                     <svg class="icon icon-edit">
                       <use xlink:href="#icon-edit"></use>
                     </svg>
@@ -54,7 +54,7 @@
               <li v-for="(item, index) in cartList" :key="index">
                 <div class="good-name">
                   <img v-lazy="item.productMainImage" alt="">
-                  <span>{{item.productName + ' ' + item.productSubTitle}}</span>
+                  <span>{{item.productName + ' ' + item.productSubtitle}}</span>
                 </div>
                 <div class="good-price">{{item.productPrice}}元x{{item.quantity}}</div>
                 <div class="good-total">{{item.productTotalPrice}}元</div>
@@ -94,11 +94,23 @@
           </div>
           <div class="btn-group">
             <a href="/#/cart" class="btn btn-default btn-large">返回购物车</a>
-            <a href="javascript:;" class="btn btn-large">去结算</a>
+            <a href="javascript:;" class="btn btn-large" @click="orderSubmit">去结算</a>
           </div>
         </div>
       </div>
     </div>
+    <modal
+      title="删除地址"
+      btnType="1"
+      :showModal="showDelModal"
+      @cancel="showDelModal=false"
+      @submit="submitAddress"
+    >
+      <template v-slot:body>
+          <p>确定删除地址吗？</p>
+      </template>
+    </modal>
+
     <modal
       title="新增确认"
       btnType="1"
@@ -109,7 +121,7 @@
       <template v-slot:body>
           <div class="edit-wrap">
             <div class="item">
-              <input type="text" class="input" placeholder="姓名" v-model="checkedItem.reveiverName">
+              <input type="text" class="input" placeholder="姓名" v-model="checkedItem.receiverName">
               <input type="text" class="input" placeholder="手机号" v-model="checkedItem.receiverMobile">
             </div>
             <div class="item">
@@ -156,7 +168,8 @@ export default{
       checkedItem: {}, // 选中的商品对象
       userAction: '', // 用户行为 0：新增 1：编辑 2：删除
       showDelModal: false, // 是否显示删除弹框
-      showEditModal: true, // 是否显示新增或者编辑弹框
+      showEditModal: false, // 是否显示新增或者编辑弹框
+      checkIndex: 0 // 当前收货地址选中的索引
     }
   },
   components: {
@@ -176,6 +189,12 @@ export default{
     openAddressModal ()  {
       this.userAction = 0
       this.checkedItem = {}
+      this.showEditModal = true
+    },
+    // 打开编辑地址弹框
+    editAddressModal (item)  {
+      this.userAction = 1
+      this.checkedItem = item
       this.showEditModal = true
     },
     delAddress (item) {
@@ -242,11 +261,29 @@ export default{
     },
     getCartList () {
       this.$axios.get('/carts').then((res) => {
-        let list = res.cartProductVolist // 获取购物车中所有的商品数据
+        let list = res.cartProductVoList // 获取购物车中所有的商品数据
         this.cartTotalPrice = res.cartTotalPrice // 商品总金额
         this.cartList =  list.filter(item => item.productSelected)
         this.cartList.map((item) => {
           this.count += item.quantity
+        })
+      })
+    },
+    // 订单提交
+    orderSubmit () {
+      let item = this.list[this.checkIndex]
+      if (!item) {
+        this.$message.error('请选择一个收货地址')
+        return
+      }
+      this.$axios.post('/orders', {
+        shippingId: item.id
+      }).then((res) => {
+        this.$router.push({
+          path: '/order/pay',
+          query: {
+            orderNo: res.orderNo
+          }
         })
       })
     }
