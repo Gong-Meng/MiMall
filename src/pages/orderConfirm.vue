@@ -100,14 +100,45 @@
       </div>
     </div>
     <modal
-      title="删除确认"
+      title="新增确认"
       btnType="1"
-      :showModal="showDelModal"
-      @cancel="showDelModal=false"
+      :showModal="showEditModal"
+      @cancel="showEditModal=false"
       @submit="submitAddress"
     >
       <template v-slot:body>
-          <p>您确认要删除地址吗？</p>
+          <div class="edit-wrap">
+            <div class="item">
+              <input type="text" class="input" placeholder="姓名">
+              <input type="text" class="input" placeholder="手机号">
+            </div>
+            <div class="item">
+              <select name="province">
+                <option value="北京">北京</option>
+                <option value="天津">天津</option>
+                <option value="河北">河北</option>
+              </select>
+              <select name="city">
+                <option value="北京">北京</option>
+                <option value="天津">天津</option>
+                <option value="石家庄">石家庄</option>
+              </select>
+              <select name="district">
+                <option value="昌平区">昌平区</option>
+                <option value="海淀区">海淀区</option>
+                <option value="东城区">东城区</option>
+                <option value="西城区">西城区</option>
+                <option value="顺义区">顺义区</option>
+                <option value="房山区">房山区</option>
+              </select>
+            </div>
+            <div class="item">
+              <textarea name="street"></textarea>
+            </div>
+            <div class="item">
+              <input type="text" class="input" placeholder="邮编">
+            </div>
+          </div>
       </template>
     </modal>
   </div>
@@ -125,6 +156,7 @@ export default{
       checkedItem: {}, // 选中的商品对象
       userAction: '', // 用户行为 0：新增 1：编辑 2：删除
       showDelModal: false, // 是否显示删除弹框
+      showEditModal: true, // 是否显示新增或者编辑弹框
     }
   },
   components: {
@@ -334,33 +366,33 @@ export default{
       }
     }
     .edit-wrap{
-      font-size:14px;
+      font-size: 14px;
       .item{
-        margin-bottom:15px;
+        margin-bottom: 15px;
         .input{
-          display:inline-block;
-          width:283px;
-          height:40px;
-          line-height:40px;
-          padding-left:15px;
-          border:1px solid #E5E5E5;
+          display: inline-block;
+          width: 283px;
+          height: 40px;
+          line-height: 40px;
+          padding-left: 15px;
+          border: 1px solid #E5E5E5;
           &+.input{
-            margin-left:14px;
+            margin-left: 14px;
           }
         }
-        select{
-          height:40px;
-          line-height:40px;
-          border:1px solid #E5E5E5;
-          margin-right:15px;
-        }
-        textarea{
-          height:62px;
-          width:100%;
-          padding:13px 15px;
-          box-sizing:border-box;
-          border:1px solid #E5E5E5;
-        }
+      }
+      select{
+        height: 40px;
+        line-height: 40px;
+        border: 1px solid #E5E5E5;
+        margin-right: 15px;
+      }
+      textarea{
+        height: 62px;
+        width: 100%;
+        padding: 13px 15px;
+        box-sizing: border-box;
+        border: 1px solid #E5E5E5;
       }
     }
   }
