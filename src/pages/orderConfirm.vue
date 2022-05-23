@@ -30,7 +30,7 @@
                 <div class="phone">{{item.receiverMobile}}</div>
                 <div class="street">{{item.receiverProvince + ' ' + item.receiverCity + ' ' + item.receiverDistrict + ' ' + item.receiverAddress}}<br>东大街地铁</div>
                 <div class="action">
-                  <a href="javascript:;" class="fl">
+                  <a href="javascript:;" class="fl" @click="delAddress(item)">
                     <svg class="icon icon-del">
                       <use xlink:href="#icon-del"></use>
                     </svg>
@@ -77,7 +77,7 @@
             </div>
             <div class="item">
               <span class="item-name">商品总价：</span>
-              <span class="item-val">2599元</span>
+              <span class="item-val">{{cartTotalPrice}}元</span>
             </div>
             <div class="item">
               <span class="item-name">优惠活动：</span>
@@ -99,9 +99,21 @@
         </div>
       </div>
     </div>
+    <modal
+      title="删除确认"
+      btnType="1"
+      :showModal="showDelModal"
+      @cancel="showDelModal=false"
+      @submit="submitAddress"
+    >
+      <template v-slot:body>
+          <p>您确认要删除地址吗？</p>
+      </template>
+    </modal>
   </div>
 </template>
 <script>
+import Modal from './../components/Modal'
 export default{
   name:'order-confirm',
   data () {
@@ -110,7 +122,13 @@ export default{
       cartList: [], // 购物车中需要结算的商品列表
       cartTotalPrice: 0, // 商品总金额
       count: 0, // 商品结算数量
+      checkedItem: {}, // 选中的商品对象
+      userAction: '', // 用户行为 0：新增 1：编辑 2：删除
+      showDelModal: false, // 是否显示删除弹框
     }
+  },
+  components: {
+    Modal
   },
   mounted () {
     this.getAddressList()
@@ -121,6 +139,33 @@ export default{
       this.$axios.get('/shippings').then((res) => {
         this.list = res.list
       })
+    },
+    delAddress (item) {
+      this.checkedItem = item
+      this.userAction = 2
+      this.showDelModal = true
+    },
+    // 地址删除、编辑、新增功能
+    submitAddress () {
+      let {checkedItem, userAction} = this
+      let method, url
+      if (userAction == 0) {
+        method = 'post', url = '/shippings'
+      } else if ( userAction == 1) {
+        method = 'put', url = `/shippings/${checkedItem.id}`
+      } else {
+        method = 'delete', url = `/shippings/${checkedItem.id}`
+      }
+      this.$axios[method](url).then(() => {
+        this.closeModal()
+        this.getAddressList()
+        this.$message.success('操作成功')
+      })
+    },
+    closeModal () {
+      this.checkedItem = {}
+      this.userAction = 0
+      this.showDelModal = false
     },
     getCartList () {
       this.$axios.get('/carts').then((res) => {
