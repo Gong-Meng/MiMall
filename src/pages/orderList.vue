@@ -47,6 +47,7 @@
                         </div>
                     </div>
                     <el-pagination
+                        v-if="false"
                         class="pagination"
                         background
                         layout="prev, pager, next"
@@ -54,6 +55,9 @@
                         :total="total"
                         @current-change="handleChange"
                     ></el-pagination>
+                    <div class="load-more">
+                        <el-button type="primary" @click="loadMore" :loading="loading">加载更多</el-button>
+                    </div>
                     <no-data v-if="!loading && list.length == 0"></no-data>
                 </div>
             </div>
@@ -65,19 +69,20 @@
 import OrderHeader from './../components/OrderHeader'
 import Loading from './../components/Loading'
 import NoData from './../components/NoData'
-import { Pagination } from 'element-ui'
+import { Pagination, Button } from 'element-ui'
 export default {
     name: 'order-list',
     components: {
         OrderHeader,
         Loading,
         NoData,
-        [Pagination.name]: Pagination
+        [Pagination.name]: Pagination,
+        [Button.name]: Button
     },
     data () {
         return {
             list: [],
-            loading: true,
+            loading: false,
             pageSize: 2,
             pageNum: 1,
             total: 0
@@ -88,6 +93,7 @@ export default {
     },
     methods: {
         getOrderList () {
+            this.loading = true
             this.$axios.get('/orders', {
                 params: {
                     pageSize: this.pageSize,
@@ -95,7 +101,7 @@ export default {
                 }
             }).then((res) => {
                 this.loading = false
-                this.list = res.list
+                this.list = this.list.concat(res.list)
                 this.total = res.total
             }).catch(() => {
                 this.loading = false
@@ -119,6 +125,10 @@ export default {
         },
         handleChange (pageNum) {
             this.pageNum = pageNum
+            this.getOrderList()
+        },
+        loadMore () {
+            this.pageNum++;
             this.getOrderList()
         }
     }
