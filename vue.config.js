@@ -17,4 +17,7 @@ module.exports = {
     // indexPath: 'index2.html', // 根页面名称
     lintOnSave: true, // eslint语法校验开关
     // productionSourceMap: false, // sourceMap调试开关
+    chainWebpack: (config) => {
+        config.plugins.delete('prefetch')
+    }
 }
