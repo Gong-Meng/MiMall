@@ -5,9 +5,9 @@ import Index from './pages/index'
 // import Product from './pages/product'
 // import Detail from './pages/detail'
 import Cart from './pages/cart'
-import Order from './pages/order'
+// import Order from './pages/order'
 import OrderConfirm from './pages/orderConfirm'
-import OrderList from './pages/orderList'
+// import OrderList from './pages/orderList'
 import OrderPay from './pages/orderPay'
 import Alipay from './pages/alipay'
 // import Login from './pages/login'
@@ -42,7 +42,7 @@ export default new Router({
         {
             path: '/login',
             name: 'login',
-            component: resolve => require(['./pages/login.vue'], resolve)
+            component: () => import('./pages/login.vue')
         },
         {
             path: '/cart',
@@ -52,12 +52,12 @@ export default new Router({
         {
             path: '/order',
             name: 'order',
-            component: Order,
+            component: () => import('./pages/order.vue'),
             children: [
                 {
                     path: 'list',
                     name: 'order-list',
-                    component: OrderList,
+                    component: () => import('./pages/orderList.vue'),
                 },
                 {
                     path: 'confirm',
